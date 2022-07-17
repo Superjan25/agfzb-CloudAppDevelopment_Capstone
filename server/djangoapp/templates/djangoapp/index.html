@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Dealership Review</title>
+    <title>Best Cars - Dealership Review</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -14,19 +15,7 @@
 </head>
 
     <body>
-    <!--Add a nav bar here -->
-        <nav class="navbar navbar-expand-sm bg-light">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Dealership Review</a>
-                </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                      <a class="nav-link" href="/about">About Us</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    {% include "djangoapp/header.html" %}
     <!--Add a dealer table here -->
 
     </body>
