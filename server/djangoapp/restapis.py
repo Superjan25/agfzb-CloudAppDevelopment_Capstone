@@ -1,5 +1,6 @@
 import requests
 import json
+import logging
 from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -57,7 +58,7 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
         # For each review object
         for review in reviews:
             # Create a CarDealer object with values in `doc` object
-            review_obj = CarDealer(dealership=review["dealership"], name=review["name"], id=review["id"],
+            review_obj = DealerReview(dealership=review["dealership"], name=review["name"], id=review["id"],
                                    review=review["review"], purchase=review["purchase"], purchase_date=review["purchase_date"],
                                    car_make=review["car_make"], car_model=review["car_model"], car_year=review["car_year"])
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
@@ -70,13 +71,14 @@ def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
 def analyze_review_sentiments(dealerreview):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
-    url = https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/a052d52c-76d4-4f42-b85a-11234d1eff89
-    api_key = IceKsxfFEcBlPryKC_j3QhO5etH_1PEog3Vh2Nuoh-Gc
+    url = "https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/a052d52c-76d4-4f42-b85a-11234d1eff89"
+    api_key = "IceKsxfFEcBlPryKC_j3QhO5etH_1PEog3Vh2Nuoh-Gc"
     
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator)
     natural_language_understanding.set_service_url(url)
-    response = natural_language_understanding.analyze(text=dealerreview,features=Features(sentiment=SentimentOptions(targets=[dealerreview]))).get_result()
+    xtext=dealerreview + "hello, hello, hello."
+    response = natural_language_understanding.analyze(text=xtext,features=Features(sentiment=SentimentOptions(targets=[xtext]))).get_result()
     label=json.dumps(response, indent=2)
     label = response['sentiment']['document']['label']
     return(label)
