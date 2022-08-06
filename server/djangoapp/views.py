@@ -108,9 +108,9 @@ def get_dealer_details(request, dealer_id):
         url = "https://65987e9d.eu-gb.apigw.appdomain.cloud/api/review"
         # Get reviews from the URL
         full_reviews = get_dealer_reviews_from_cf(url, dealer_id)
-        # Concat all dealer's short name
-        reviews = ' '.join([review.review for review in full_reviews])
-        # Return a list of dealer short name
+        # Concat all reviews
+        reviews = ' '.join([review.review & " (" & review.sentiment & ")" for review in full_reviews])
+        # Return a list of reviews
         return HttpResponse(reviews)
 
 # Create a `add_review` view to submit a review
