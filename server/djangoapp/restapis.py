@@ -3,12 +3,18 @@ import json
 from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 
-def get_request(url, **kwargs):
+def get_request(url, api_key, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
     try:
         # Call get method of requests library with URL and parameters
-        response = requests.get(url, headers={'Content-Type': 'application/json'},
+        if api_key:
+            # Basic authentication GET
+            response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
+                                    auth=HTTPBasicAuth('apikey', api_key), params=kwargs)
+        else:
+            # no authentication GET
+            response = requests.get(url, headers={'Content-Type': 'application/json'},
                                     params=kwargs)
     except:
         # If any error occurs
@@ -43,7 +49,7 @@ def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Parse JSON results into a DealerView object list
 
-def get_dealer_reviews_from_cf(url, **kwargs):
+def get_dealer_reviews_from_cf(url, dealer_id, **kwargs):
     results = []
     # Call get_request with a URL parameter
     json_result = get_request(url, dealerId=dealer_id)
