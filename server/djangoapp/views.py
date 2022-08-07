@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import CarDealer, DealerReview
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -12,10 +12,6 @@ import json
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
-
-
-# Create your views here.
-
 
 # Create an `about` view to render a static about page
 def about(request):
@@ -114,5 +110,23 @@ def get_dealer_details(request, dealer_id):
         return HttpResponse(reviews)
 
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
+def add_review(request, dealer_id):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            url = "https://65987e9d.eu-gb.apigw.appdomain.cloud/api/review"
+            review = dict()
+            review["time"] = datetime.utcnow().isoformat()
+            review["name"] = request.user.username
+            review["dealership"] = dealer_id
+            review["review"] = request.POST["review"]
+            review["purchase"] = request.POST["purchase"]
+            review["purchase_date"] = request.POST["purchase_date"]
+            review["car_make"] = request.POST["car_make"]
+            review["car_model"] = request.POST["car_model"]
+            review["car_year"] = request.POST["car_year"]
+
+            json_payload = dict()
+            json_payload["review"] = review
+
+            posting = post_request(url, json_payload, dealerId=dealer_id)
+            return HttpResponse(posting)
