@@ -8,11 +8,35 @@
 </head>
 
     <body>
-
-    <!--Add a nav bar here -->
-
-    <!-- Add reviews as cards -->
-
+    {% include "djangoapp/header.html" %}
+    <div class="container-fluid" style="margin-top:80px">
+        {% if user.is_authenticated %}
+            <div style="margin: 10px;">
+                <a class="btn btn-secondary" href="{% url 'djangoapp:add_review' dealer.id %}"><b>Add a new review</b></a>
+            </div>
+        {% endif %}
+        {% if reviews %}
+            <div class="card-columns">
+                {% for review in reviews %}
+                    <div class="card">
+                        <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left">
+                        <div class="card-body">
+                            {% if review.car_make %}
+                                <h4 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h4>
+                                <h4 class="card-title">{{ review.car_year }}</h4>
+                            {% else %}
+                                <h4 class="card-title">Review</h4>
+                                <h4 class="card-title">without purchase</h4>
+                            {% end if %}
+                            <p class="card-text">{{ review.review }}</p>
+                        </div>
+                    </div>                
+                {% endfor %}
+            </div>  
+        {% else %}
+            <p></br>There are no reviews for this dealership yet.</br></p>
+        {% endif %}
+    </div>
     </body>
 
 </html>
