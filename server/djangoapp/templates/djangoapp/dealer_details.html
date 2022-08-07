@@ -9,24 +9,23 @@
 
     <body>
     {% include "djangoapp/header.html" %}
-    <div class="container-fluid" style="margin-top:80px">
+    <div class="container" style="margin-top:80px">
         <h3>Reviews for <b>{{dealer.full_name}}</b></h3>
         {% if reviews %}
             <div class="card-columns">
                 {% for review in reviews %}
-                    <div class="card">
-                        <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left" style="height: 38px; margin: 4px;">
-                        <div class="card-body bg-light text-dark">
-                            {% if review.car_make %}
-                                <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
-                                <h5 class="card-title">{{ review.car_year }}</h5>
-                            {% else %}
-                                <h5 class="card-title">Review</h5>
-                                <h5 class="card-title">without purchase</h5>
-                            {% endif %}
-                            <p class="card-text">{{ review.review }}</p>
-                        </div>
-                    </div>                
+                <div class="card">
+                    <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left" style="height: 38px; margin: 4px;">
+                    <div class="card-body bg-light text-dark">
+                        {% if review.car_make %}
+                            <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
+                            <h5 class="card-title">{{ review.car_year }}</h5>
+                        {% else %}
+                            <h5 class="card-title">Review without purchase</h5>
+                        {% endif %}
+                        <p class="card-text">{{ review.review }}</p>
+                    </div>
+                </div>                
                 {% endfor %}
             </div>  
         {% else %}
