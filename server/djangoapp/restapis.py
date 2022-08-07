@@ -40,6 +40,15 @@ def get_dealers_from_cf(url, **kwargs):
 
     return results
 
+def get_dealer_by_id_from_cf(url, dealer_id):
+    json_result = get_request(url, dealerId=dealer_id)
+    if json_result:
+        dealers = json_result["body"]
+        dealer = dealers[0]
+        dealer_obj = CarDealer(address=dealer["address"], city=dealer["city"], full_name=dealer["full_name"],
+                                id=dealer["id"], lat=dealer["lat"], long=dealer["long"], state=dealer["state"],
+                                short_name=dealer["short_name"], st=dealer["st"], zip=dealer["zip"])
+    return dealer_obj
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 

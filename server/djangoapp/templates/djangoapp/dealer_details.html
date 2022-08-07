@@ -15,18 +15,19 @@
                 <a class="btn btn-secondary" href="{% url 'djangoapp:add_review' dealer.id %}"><b>Add a new review</b></a>
             </div>
         {% endif %}
+        <h3>Reviews for {{dealer.full_name}}</h3>
         {% if reviews %}
             <div class="card-columns">
                 {% for review in reviews %}
                     <div class="card">
-                        <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left">
-                        <div class="card-body">
+                        <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left" style="height: 38px; margin: 4px;">
+                        <div class="card-body bg-light text-dark">
                             {% if review.car_make %}
-                                <h4 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h4>
-                                <h4 class="card-title">{{ review.car_year }}</h4>
+                                <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
+                                <h5 class="card-title">{{ review.car_year }}</h5>
                             {% else %}
-                                <h4 class="card-title">Review</h4>
-                                <h4 class="card-title">without purchase</h4>
+                                <h5 class="card-title">Review</h5>
+                                <h5 class="card-title">without purchase</h5>
                             {% endif %}
                             <p class="card-text">{{ review.review }}</p>
                         </div>
